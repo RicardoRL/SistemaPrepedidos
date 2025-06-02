@@ -14,12 +14,12 @@ class PrepedidoController extends Controller
      */
     public function index()
     {
-        $articulos = Articulo::where('activo', true)
+        /*$articulos = Articulo::where('activo', true)
                              ->whereDate('fecha_vigencia', '>=', now())
                              ->whereNull('deleted_at')
                              ->paginate(5);
 
-        return view('prepedidos.index', compact('articulos'));
+        return view('prepedidos.index', compact('articulos'));*/
     }
 
     /**

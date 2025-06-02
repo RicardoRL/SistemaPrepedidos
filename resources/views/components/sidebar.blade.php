@@ -51,7 +51,7 @@
           </a>
           <ul class="nav-group-sub collapse">
             <li class="nav-item"><a href="{{ route('articulos.index') }}" class="nav-link">Gestión de artículos</a></li>
-            <li class="nav-item"><a href="{{ route('prepedidos.index') }}" class="nav-link">Listado de artículos</a></li>
+            <li class="nav-item"><a href="{{ route('articulos.listado') }}" class="nav-link">Listado de artículos</a></li>
           </ul>
         </li>
         <li class="nav-item">

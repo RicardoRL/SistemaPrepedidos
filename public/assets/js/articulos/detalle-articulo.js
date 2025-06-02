@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const precioDolares = btn.dataset.precioDolares || 0.0;
       const stock = btn.dataset.stock || '';
       const vigencia = btn.dataset.fechaVigencia || '';
-      const estado = btn.dataset.activo || '';
+      const estado = btn.dataset.activo ? "Activo" : "Inactivo";
       const imagen = btn.dataset.imagen || '';
 
       // Insertar los valores en el modal

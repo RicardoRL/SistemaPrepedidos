@@ -17,6 +17,16 @@ class ArticuloController extends Controller
         return view('articulos.index', compact('articulos'));
     }
 
+    public function listado()
+    {
+        $articulos = Articulo::where('activo', true)
+                             ->whereDate('fecha_vigencia', '>=', now())
+                             ->whereNull('deleted_at')
+                             ->paginate(4);
+
+        return view('articulos.listado-articulos', compact('articulos'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

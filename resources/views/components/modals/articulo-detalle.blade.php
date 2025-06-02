@@ -19,7 +19,7 @@
             <span class="fw-semibold">Descripción corta:</span>
             <div class="ms-auto" id="detalle-desc-cor"></div>
           </li>
-          <li class="list-group-item d-flex">
+          <li class="list-group-item">
             <span class="fw-semibold">Descripción larga:</span>
             <div class="ms-auto" id="detalle-desc-lar"></div>
           </li>
