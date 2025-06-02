@@ -82,7 +82,21 @@
                           <i class="ph-list"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
-                          <a href="#" class="dropdown-item">
+                          <a href="#" class="dropdown-item btn-detalle"
+                             data-bs-toggle="modal"
+                             data-bs-target="#articulo-detalle"
+                             data-id="{{ $articulo->id }}"
+                             data-sku="{{ $articulo->sku }}"
+                             data-nombre="{{ $articulo->nombre }}"
+                             data-descripcion-corta="{{ $articulo->descripcion_corta }}"
+                             data-descripcion-larga="{{ $articulo->descripcion_larga }}"
+                             data-precio-pesos="{{ $articulo->precio_pesos }}"
+                             data-precio-dolares="{{ $articulo->precio_dolares }}"
+                             data-stock="{{ $articulo->stock }}"
+                             data-fecha-vigencia="{{ $articulo->fecha_vigencia }}"
+                             data-activo="{{ $articulo->activo }}"
+                             data-imagen="{{ $articulo->imagen }}"
+                          >
                             <i class="ph-eye me-2"></i>
                             Ver detalle
                           </a>
@@ -138,6 +152,7 @@
 @endsection
 
 @include('components.modals.articulo-form')
+@include('components.modals.articulo-detalle')
 
 @push('scripts')
   <script src="{{asset('assets/js/jquery.min.js')}}"></script>
@@ -146,6 +161,7 @@
   <script src="{{asset('assets/js/articulos/guardar-articulo.js')}}"></script>
   <script src="{{asset('assets/js/articulos/eliminar-articulo.js')}}"></script>
   <script src="{{asset('assets/js/articulos/cambiar-estado.js')}}"></script>
+  <script src="{{asset('assets/js/articulos/detalle-articulo.js')}}"></script>
   <script src="{{asset('assets/js/vendor/datatables/datatables_basic.js')}}"></script>
 	<script src="{{asset('assets/js/vendor/datatables/datatables.min.js')}}"></script>
   <script src="{{asset('assets/js/vendor/notifications/noty.min.js')}}"></script>
