@@ -35,7 +35,7 @@
           <i class="ph-dots-three sidebar-resize-show"></i>
         </li>
         <li class="nav-item">
-          <a href="index.html" class="nav-link">
+          <a href="{{ route('dashboard.index') }}" class="nav-link">
             <i class="ph-house"></i>
             <span>
               Dashboard
@@ -43,7 +43,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="index.html" class="nav-link">
+          <a href="{{ route('articulos.index') }}" class="nav-link">
             <i class="ph-package"></i>
             <span>
               Artículos
@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="index.html" class="nav-link">
+          <a href="{{ route('prepedidos.index') }}" class="nav-link">
             <i class="ph-list-bullets"></i>
             <span>
               Prepedidos  
