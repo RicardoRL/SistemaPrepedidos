@@ -104,7 +104,10 @@
                             <i class="ph-pencil-line me-2"></i>
                             Editar
                           </a>
-                          <a href="#" class="dropdown-item">
+                          <a href="#" class="dropdown-item btn-estado"
+                            data-id="{{ $articulo->id }}" 
+                            data-nombre="{{ $articulo->nombre }}"
+                          >
                             <i class="ph-power me-2"></i>
                             Activar/Inactivar
                           </a>
@@ -123,9 +126,13 @@
         </div>
       </div>
     </div>
-    <form action="{{ route('articulos.store') }}" method="POST" enctype="multipart/form-data" id="form-eliminar">
+    <form action="{{ route('articulos.store') }}" method="POST" enctype="multipart/form-data" id="form-eliminar" style="display: none;">
       @csrf
       @method('DELETE')
+    </form>
+    <form id="form-cambia-estado" method="POST" style="display: none;">
+      @csrf
+      @method('PUT')
     </form>
   @endif
 @endsection
@@ -138,6 +145,7 @@
   <script src="{{asset('assets/js/articulos/editar-articulo.js')}}"></script>
   <script src="{{asset('assets/js/articulos/guardar-articulo.js')}}"></script>
   <script src="{{asset('assets/js/articulos/eliminar-articulo.js')}}"></script>
+  <script src="{{asset('assets/js/articulos/cambiar-estado.js')}}"></script>
   <script src="{{asset('assets/js/vendor/datatables/datatables_basic.js')}}"></script>
 	<script src="{{asset('assets/js/vendor/datatables/datatables.min.js')}}"></script>
   <script src="{{asset('assets/js/vendor/notifications/noty.min.js')}}"></script>
@@ -157,14 +165,14 @@
     <script>
 
       const swalInit = swal.mixin({
-                        buttonsStyling: false,
-                        customClass: {
-                        confirmButton: 'btn btn-primary',
-                        cancelButton: 'btn btn-light',
-                        denyButton: 'btn btn-light',
-                        input: 'form-control'
-                      }
-                  });
+                       buttonsStyling: false,
+                       customClass: {
+                       confirmButton: 'btn btn-primary',
+                       cancelButton: 'btn btn-light',
+                       denyButton: 'btn btn-light',
+                       input: 'form-control'
+          }
+      });
 
       document.addEventListener('DOMContentLoaded', function () {
         let mensaje = '';

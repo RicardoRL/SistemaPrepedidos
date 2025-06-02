@@ -12,7 +12,7 @@ class ArticuloController extends Controller
      */
     public function index()
     {
-        $articulos = Articulo::where('activo', true)->whereNull('deleted_at')->get();
+        $articulos = Articulo::whereNull('deleted_at')->get();
 
         return view('articulos.index', compact('articulos'));
     }
@@ -107,9 +107,18 @@ class ArticuloController extends Controller
     public function destroy(Articulo $articulo)
     {
         $articulo = Articulo::findOrFail($articulo->id);
-        
+
         $articulo->delete();
 
         return redirect()->route('articulos.index')->with('success', 'Artículo eliminado correctamente.');
+    }
+
+    public function cambiarEstado($id)
+    {
+        $articulo = Articulo::findOrFail($id);
+        $articulo->activo = !$articulo->activo;
+        $articulo->save();
+
+        return redirect()->route('articulos.index')->with('success', 'Estado del artículo actualizado correctamente.');
     }
 }
