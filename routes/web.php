@@ -8,7 +8,21 @@ use App\Services\BanxicoService;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\SocialLoginController;
 
+// Ruta raíz: redirige según logueo
+Route::get('/', function () {
+    return Auth::check()
+        ? redirect()->route('dashboard.index')
+        : view('login'); // login.blade.php
+})->name('login');
+
+// Dashboard (solo usuarios autenticados)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+});
+
+// Login con Google
 Route::get('/auth/google', function () {
     return Socialite::driver('google')->redirect();
 })->name('google.login');
@@ -28,7 +42,14 @@ Route::get('/auth/google/callback', function () {
     return redirect('/admin/articulos'); // o donde quieras
 });
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::post('/logout', function () {
+    Auth::logout();
+    session()->invalidate();
+    session()->regenerateToken();
+    return redirect('/');
+})->name('logout');;
+
+//Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/tipo-cambio', function (BanxicoService $banxicoService) {
     $tasa = $banxicoService->obtenerTipoCambio();
@@ -51,4 +72,8 @@ Route::prefix('admin')->group(function () {
     Route::put('/prepedidos/{prepedido}', [PrepedidoController::class, 'update'])->name('prepedidos.update');
     Route::delete('/prepedidos/{prepedido}', [PrepedidoController::class, 'destroy'])->name('prepedidos.destroy');
 });
+
+Route::get('/auth/google/redirect', [SocialLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/auth/google/callback', [SocialLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+
 

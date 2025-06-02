@@ -20,15 +20,6 @@
                 <span class="btn-labeled-icon bg-black bg-opacity-20">
                   <i class="ph-shopping-cart"></i>
                 </span>
-                Ver prepedido
-              </button>
-            </div>
-            <div class="me-2">
-              <button type="button" class="btn btn-primary btn-labeled btn-labeled-start"
-                      data-bs-toggle="modal" data-bs-target="#carrito-compras" id="btn-carrito">
-                <span class="btn-labeled-icon bg-black bg-opacity-20">
-                  <i class="ph-shopping-cart"></i>
-                </span>
                 Ver carrito
               </button>
             </div>
