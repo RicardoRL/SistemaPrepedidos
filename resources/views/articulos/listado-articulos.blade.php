@@ -106,6 +106,7 @@
 
 @include('components.modals.carrito-compras')
 @include('components.modals.articulo-detalle')
+@include('components.modals.cotizacion')
 @vite(['resources/js/app.js'])
 
 @push('scripts')

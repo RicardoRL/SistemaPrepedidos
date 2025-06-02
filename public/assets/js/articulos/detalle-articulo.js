@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
 
       // Obtener los datos del botón
-      console.log(btn.dataset);
       const sku = btn.dataset.sku || '';
       const nombre = btn.dataset.nombre || '';
       const descCorta = btn.dataset.descripcionCorta || '';

@@ -27,6 +27,9 @@
           <p><strong>Total (USD):</strong> <span id="carrito-total-dolares">$0.00</span></p>
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-finalizar-pedido">Finalizar pedido</button>
+      </div>
     </div>
   </div>
 </div>

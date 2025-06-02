@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PrepedidoDetalle extends Model
 {
+    protected $table = 'prepedido_detalle';
+    
     protected $fillable = [
         'prepedido_id',
         'articulo_id',

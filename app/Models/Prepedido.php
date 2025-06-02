@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Prepedido extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'folio',
         'correo',

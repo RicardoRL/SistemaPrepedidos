@@ -55,7 +55,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="{{ route('prepedidos.index') }}" class="nav-link">
             <i class="ph-list-bullets"></i>
             <span>
               Prepedidos  

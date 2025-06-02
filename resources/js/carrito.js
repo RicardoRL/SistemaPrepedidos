@@ -1,4 +1,5 @@
-// Estructura básica del carrito
+import swal from 'sweetalert2';
+
 let carrito = [];
 
 // Función para agregar al carrito
@@ -102,6 +103,46 @@ function eliminarDelCarrito(id) {
   }
 }
 
+function mostrarResumenCotizacion() {
+  const tbody = document.getElementById('resumen-cotizacion');
+  const subtotalMXNEl = document.getElementById('cotizacion-subtotal-mxn');
+  const ivaMXNEl = document.getElementById('cotizacion-iva-mxn');
+  const totalMXNEl = document.getElementById('cotizacion-total-mxn');
+  const totalUSDEl = document.getElementById('cotizacion-total-usd');
+
+  tbody.innerHTML = '';
+
+  let subtotalMXN = 0;
+  let totalUSD = 0;
+
+  carrito.forEach(producto => {
+    const subMXN = producto.precio_pesos * producto.cantidad;
+    const subUSD = producto.precio_dolares * producto.cantidad;
+
+    subtotalMXN += subMXN;
+    totalUSD += subUSD;
+
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${producto.nombre}</td>
+      <td>${producto.cantidad}</td>
+      <td>$${producto.precio_pesos.toFixed(2)}</td>
+      <td>$${producto.precio_dolares.toFixed(2)}</td>
+      <td>$${subMXN.toFixed(2)}</td>
+      <td>$${subUSD.toFixed(2)}</td>
+    `;
+
+    tbody.appendChild(fila);
+  });
+
+  const ivaMXN = subtotalMXN * 0.16;
+  const totalMXN = subtotalMXN + ivaMXN;
+
+  subtotalMXNEl.textContent = `$${subtotalMXN.toFixed(2)}`;
+  ivaMXNEl.textContent = `$${ivaMXN.toFixed(2)}`;
+  totalMXNEl.textContent = `$${totalMXN.toFixed(2)}`;
+  totalUSDEl.textContent = `$${totalUSD.toFixed(2)}`;
+}
 
 // Vincular botones "Agregar al carrito"
 document.addEventListener('DOMContentLoaded', function () {
@@ -123,3 +164,150 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+document.getElementById('btn-finalizar-pedido').addEventListener('click', async function () {
+  const sweetAl4= swal.mixin({
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-light',
+        denyButton: 'btn btn-light',
+        input: 'form-control'
+      }
+  });
+
+  if (carrito.length === 0) {
+    sweetAl4.fire({
+      title: 'El carrito está vacío',
+      text: `Agrega productos para finalizar tu pedido`,
+      icon: 'warning',
+      confirmButtonText: 'Ok',
+      buttonsStyling: false,
+      customClass: {
+      confirmButton: 'btn btn-primary',
+      }
+    })
+    return;
+  }
+
+  const modalCarrito = bootstrap.Modal.getInstance(document.getElementById('carrito-compras'));
+  modalCarrito.hide();
+
+  const modalCotizacion = new bootstrap.Modal(document.getElementById('cotizacion'));
+  modalCotizacion.show();
+
+});
+
+document.getElementById('btn-finalizar-pedido').addEventListener('click', function () {
+
+  const sweetAl4= swal.mixin({
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-light',
+        denyButton: 'btn btn-light',
+        input: 'form-control'
+      }
+  });
+
+  if (carrito.length === 0) {
+    sweetAl4.fire({
+      title: 'Carrito vacío',
+      text: 'Agrega productos antes de finalizar el pedido',
+      icon: 'warning',
+      confirmButtonText: 'Ok'
+    });
+    return;
+  }
+
+  // Ocultar modal del carrito si está abierto
+  const modalCarrito = bootstrap.Modal.getInstance(document.getElementById('carrito-compras'));
+  if (modalCarrito) modalCarrito.hide();
+
+  // Llenar tabla de cotización y mostrar modal
+  mostrarResumenCotizacion();
+
+  const modalCotizacion = new bootstrap.Modal(document.getElementById('cotizacion'));
+  modalCotizacion.show();
+});
+
+document.getElementById('btn-confirmar-prepedido').addEventListener('click', async function () {
+  const correo = document.getElementById('correo-prepedido').value.trim();
+
+  const sweetAl = swal.mixin({
+    buttonsStyling: false,
+    customClass: {
+      confirmButton: 'btn btn-primary',
+    }
+  });
+
+  // Validar si está vacío
+  if (!correo) {
+    return sweetAl.fire({
+      title: 'Campo requerido',
+      text: 'Por favor, ingresa un correo electrónico.',
+      icon: 'error',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+
+  // Validar formato de correo
+  const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regexCorreo.test(correo)) {
+    return sweetAl.fire({
+      title: 'Correo inválido',
+      text: 'Ingresa un correo electrónico válido.',
+      icon: 'error',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+
+  try {
+    const response = await fetch('/admin/prepedidos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      },
+      body: JSON.stringify({
+        correo,
+        carrito
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      const modal = bootstrap.Modal.getInstance(document.getElementById('cotizacion'));
+      if (modal) modal.hide();
+
+      setTimeout(() => {
+        sweetAl.fire({
+          title: 'Prepedido creado',
+          text: 'El prepedido se ha registrado correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      }, 300);
+      
+
+      carrito = [];
+      actualizarCarritoModal();
+      document.getElementById('correo-prepedido').value = '';
+
+    } else {
+      throw new Error(data.message || 'Ocurrió un error al guardar.');
+    }
+
+  } catch (error) {
+    sweetAl.fire({
+      title: 'Error',
+      text: error.message,
+      icon: 'error',
+      confirmButtonText: 'Cerrar'
+    });
+  }
+});
+
+
+
