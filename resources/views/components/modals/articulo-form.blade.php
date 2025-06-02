@@ -60,7 +60,7 @@
                 <div class="col-lg-12">
                   <div class="mb-3">
                     <label class="form-label d-block">Imagen actual:</label>
-                    <img src="{{ asset('storage/' . $articulo->imagen) }}" alt="Imagen actual" class="img-thumbnail" width="150">
+                    <img src="{{ asset('storage/' . $articulo->imagen) }}" alt="Imagen actual" class="img-thumbnail" id="img-preview" width="150">
                   </div>
                 </div>
               </div>

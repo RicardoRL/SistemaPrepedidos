@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', () => {
       // Cambia la acción del form
       const id = button.dataset.id;
+      const imagenUrl = button.dataset.imagen;
+      const imgPreview = document.getElementById('img-preview');
+      const imgPreviewContainer = imgPreview.closest('.row');
       form.action = `/admin/articulos/${id}`;
       
       // Método PUT simulado
@@ -26,7 +29,19 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('articulo_fech_vig').value = button.dataset.fechaVigencia;
 
       document.getElementById('articulo_img').required = false;
-      console.log(document.getElementById('articulo_img'));
+
+      if (button.dataset.imagen) {
+        imgPreview.src = button.dataset.imagen;
+        imgPreviewContainer.style.display = 'block';
+      } else {
+        imgPreview.src = '';
+        imgPreviewContainer.style.display = 'none';
+      }
+
+      if (imagenUrl && imgPreview) {
+        imgPreview.src = imagenUrl;
+        imgPreview.closest('.row').style.display = 'flex'; // o 'block', según tu diseño
+      }
 
       // Cambiar texto del botón
       document.getElementById('btn-guardar').textContent = 'Actualizar';

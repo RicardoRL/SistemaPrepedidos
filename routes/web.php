@@ -17,6 +17,6 @@ Route::prefix('admin')->group(function () {
     Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
     Route::post('/articulos', [ArticuloController::class, 'store'])->name('articulos.store');
     Route::put('/articulos/{articulo}', [ArticuloController::class, 'update'])->name('articulos.update');
-
+    Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])->name('articulos.destroy');
 });
 

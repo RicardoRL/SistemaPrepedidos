@@ -106,6 +106,10 @@ class ArticuloController extends Controller
      */
     public function destroy(Articulo $articulo)
     {
-        //
+        $articulo = Articulo::findOrFail($articulo->id);
+        
+        $articulo->delete();
+
+        return redirect()->route('articulos.index')->with('success', 'Artículo eliminado correctamente.');
     }
 }

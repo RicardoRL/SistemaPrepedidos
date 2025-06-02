@@ -97,6 +97,7 @@
                             data-precio-dolares="{{ $articulo->precio_dolares }}"
                             data-stock="{{ $articulo->stock }}"
                             data-fecha-vigencia="{{ $articulo->fecha_vigencia }}"
+                            data-imagen="{{ asset('storage/' . $articulo->imagen) }}"
                             data-bs-toggle="modal"
                             data-bs-target="#articulos"
                           >
@@ -107,7 +108,7 @@
                             <i class="ph-power me-2"></i>
                             Activar/Inactivar
                           </a>
-                          <a href="#" class="dropdown-item">
+                          <a class="dropdown-item btn-eliminar" data-id="{{ $articulo->id }}">
                             <i class="ph-x me-2"></i>
                             Eliminar
                           </a>
@@ -122,6 +123,10 @@
         </div>
       </div>
     </div>
+    <form action="{{ route('articulos.store') }}" method="POST" enctype="multipart/form-data" id="form-eliminar">
+      @csrf
+      @method('DELETE')
+    </form>
   @endif
 @endsection
 
@@ -132,6 +137,7 @@
   <script src="{{asset('assets/js/articulos/conversion.js')}}"></script>
   <script src="{{asset('assets/js/articulos/editar-articulo.js')}}"></script>
   <script src="{{asset('assets/js/articulos/guardar-articulo.js')}}"></script>
+  <script src="{{asset('assets/js/articulos/eliminar-articulo.js')}}"></script>
   <script src="{{asset('assets/js/vendor/datatables/datatables_basic.js')}}"></script>
 	<script src="{{asset('assets/js/vendor/datatables/datatables.min.js')}}"></script>
   <script src="{{asset('assets/js/vendor/notifications/noty.min.js')}}"></script>
