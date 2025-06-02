@@ -31,7 +31,7 @@
 
         <!-- Main -->
         <li class="nav-item-header">
-          <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">Main</div>
+          <div class="text-uppercase fs-sm lh-sm opacity-50 sidebar-resize-hide">MÓDULOS</div>
           <i class="ph-dots-three sidebar-resize-show"></i>
         </li>
         <li class="nav-item">
@@ -42,16 +42,20 @@
             </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="{{ route('articulos.index') }}" class="nav-link">
+        <li class="nav-item nav-item-submenu">
+          <a href="#" class="nav-link">
             <i class="ph-package"></i>
             <span>
               Artículos
             </span>
           </a>
+          <ul class="nav-group-sub collapse">
+            <li class="nav-item"><a href="{{ route('articulos.index') }}" class="nav-link">Gestión de artículos</a></li>
+            <li class="nav-item"><a href="{{ route('prepedidos.index') }}" class="nav-link">Listado de artículos</a></li>
+          </ul>
         </li>
         <li class="nav-item">
-          <a href="{{ route('prepedidos.index') }}" class="nav-link">
+          <a href="#" class="nav-link">
             <i class="ph-list-bullets"></i>
             <span>
               Prepedidos  
